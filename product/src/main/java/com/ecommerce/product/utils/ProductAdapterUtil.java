@@ -1,7 +1,7 @@
 package com.ecommerce.product.utils;
 
 import com.ecommerce.product.dto.request.AddProductRequest;
-import com.ecommerce.product.dto.request.AddReviewRequest;
+import com.ecommerce.product.dto.request.AddProductReviewRequest;
 import com.ecommerce.product.dto.response.GetProductResponse;
 import com.ecommerce.product.model.Product;
 import com.ecommerce.product.model.ProductReview;
@@ -43,14 +43,14 @@ public class ProductAdapterUtil {
         return product;
     }
 
-    public static ProductReview convertToProductReviewModel(AddReviewRequest addReviewRequest, Product product, User user){
+    public static ProductReview convertToProductReviewModel(AddProductReviewRequest addProductReviewRequest, Product product, User user){
         ProductReview productReview = new ProductReview();
         productReview.setId(UUID.randomUUID().toString());
         productReview.setTimeStamp(Instant.now().toEpochMilli());
         productReview.setProduct(product);
         productReview.setUser(user);
-        productReview.setRating(addReviewRequest.getRating());
-        productReview.setReview(addReviewRequest.getReview());
+        productReview.setRating(addProductReviewRequest.getRating());
+        productReview.setReview(addProductReviewRequest.getReview());
 
         return productReview;
     }

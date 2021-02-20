@@ -1,6 +1,7 @@
 package com.ecommerce.product.repository;
 
 import com.ecommerce.product.dto.response.AddProductResponse;
+import com.ecommerce.product.exceptions.DataRetrievalException;
 import com.ecommerce.product.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,6 +15,10 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository implementation to handle the queries towards user's information
+ * This implementation is based on Hibernate library and a MYSQL database.
+ */
 @Repository
 @Qualifier("userRepository")
 public class UserRepositoryImpl extends AbstractRepository implements UserRepository {
@@ -24,6 +29,11 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
         super(sessionFactory);
     }
 
+    /**
+     * Adds a user into the system.
+     *
+     * @param user
+     */
     @Override
     public void addUser(User user) {
         Session session = sessionFactory.openSession();
@@ -33,32 +43,53 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
         session.close();
     }
 
+    /**
+     * Returns all the users in the system.
+     *
+     * @return
+     */
     @Override
     public List<User> getAllUsers() {
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<User> criteria = builder.createQuery(User.class);
-        Root<User> root = criteria.from(User.class);
-        criteria.select(root);
-
-        return getSession().createQuery(criteria).getResultList();
-    }
-
-    @Override
-    public User getUserById(String userId) {
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<User> criteria = builder.createQuery(User.class);
-        Root<User> root = criteria.from(User.class);
-        criteria.select(root);
-
-        List<Predicate> predicates = new ArrayList<>();
-        if (userId != null) {
-            predicates.add(builder.equal(root.get("id"), userId));
-            criteria.where(predicates.toArray(PREDICATES));
+        Session session = getSession();
+        List<User> users;
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteria = builder.createQuery(User.class);
+            Root<User> root = criteria.from(User.class);
+            criteria.select(root);
+            users = session.createQuery(criteria).getResultList();
+        } catch (Exception ex) {
+            throw new DataRetrievalException("Error occurred while fetching the users information", ex);
         }
 
-        List<User> userList = getSession().createQuery(criteria).getResultList();
-        if (userList.isEmpty()) {
-            return null;
+        return users;
+    }
+
+    /**
+     * Returns user's information queried by Id.
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public User getUserById(String userId) {
+        Session session = getSession();
+        List<User> userList;
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteria = builder.createQuery(User.class);
+            Root<User> root = criteria.from(User.class);
+            criteria.select(root);
+
+            List<Predicate> predicates = new ArrayList<>();
+            if (userId != null) {
+                predicates.add(builder.equal(root.get("id"), userId));
+                criteria.where(predicates.toArray(PREDICATES));
+            }
+
+            userList = session.createQuery(criteria).getResultList();
+        } catch (Exception ex) {
+            throw new DataRetrievalException("Error occurred while fetching the user's information", ex);
         }
 
         return userList.get(0);

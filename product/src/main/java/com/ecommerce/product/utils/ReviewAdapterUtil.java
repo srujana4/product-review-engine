@@ -11,8 +11,8 @@ public class ReviewAdapterUtil {
         List<GetProductReviewResponse> productReviewResponseList = new ArrayList<>();
         productReviews.forEach(review -> {
             GetProductReviewResponse productReviewResponse = new GetProductReviewResponse(review.getId(),
-                    review.getUser().getId(), review.getProduct().getId(), review.getRating(),
-                    review.getReview(), review.getTimeStamp());
+                    review.getUser().getId(), review.getUser().getName(), review.getProduct().getId(),
+                    review.getProduct().getName(), review.getRating(), review.getReview(), review.getTimeStamp());
             productReviewResponseList.add(productReviewResponse);
         });
         return productReviewResponseList;

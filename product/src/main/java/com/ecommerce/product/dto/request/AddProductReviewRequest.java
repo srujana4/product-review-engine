@@ -1,6 +1,6 @@
 package com.ecommerce.product.dto.request;
 
-public class AddReviewRequest {
+public class AddProductReviewRequest {
     private String userId;
     private String productId;
     private String review;

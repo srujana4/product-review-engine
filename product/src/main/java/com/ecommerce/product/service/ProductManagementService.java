@@ -1,7 +1,7 @@
 package com.ecommerce.product.service;
 
 import com.ecommerce.product.dto.request.AddProductRequest;
-import com.ecommerce.product.dto.request.AddReviewRequest;
+import com.ecommerce.product.dto.request.AddProductReviewRequest;
 import com.ecommerce.product.dto.response.AddProductResponse;
 import com.ecommerce.product.dto.response.AddReviewResponse;
 import com.ecommerce.product.dto.response.GetProductResponse;
@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface ProductManagementService {
 
-    GetProductResponse getProductByProductId(String productId);
+    GetProductResponse getProductById(String productId);
 
     AddProductResponse addNewProduct(AddProductRequest addProductRequest);
 
-    AddReviewResponse addNewReview(AddReviewRequest addReviewRequest);
+    AddReviewResponse addNewReview(AddProductReviewRequest addProductReviewRequest);
 
     List<GetProductResponse> getAllProducts();
 

@@ -3,7 +3,9 @@ package com.ecommerce.product.dto.response;
 public class GetProductReviewResponse {
     private String id;
     private String userId;
+    private String userName;
     private String productId;
+    private String productName;
     private int rating;
     private String review;
     private long timeStamp;
@@ -11,10 +13,13 @@ public class GetProductReviewResponse {
     public GetProductReviewResponse() {
     }
 
-    public GetProductReviewResponse(String id, String userId, String productId, int rating, String review, long timeStamp) {
+    public GetProductReviewResponse(String id, String userId, String userName, String productId, String productName,
+                                    int rating, String review, long timeStamp) {
         this.id = id;
         this.userId = userId;
+        this.userName = userName;
         this.productId = productId;
+        this.productName = productName;
         this.rating = rating;
         this.review = review;
         this.timeStamp = timeStamp;
@@ -66,5 +71,21 @@ public class GetProductReviewResponse {
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }
